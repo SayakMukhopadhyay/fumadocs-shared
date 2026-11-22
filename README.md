@@ -22,10 +22,10 @@ Use the Node.js version in `.nvmrc` and install the locked dependencies before b
 
 ```sh
 npm ci --ignore-scripts
-npm run build
+npm run build:dist
 ```
 
-`npm run build` clears `dist/` before compiling JavaScript and declarations. The shared styles ship as plain CSS from `styles/`. Commit source changes and the regenerated output together. `npm run validate:generated` compares the built files with Git, and Pipeline also checks for untracked output.
+`npm run build:dist` clears `dist/` before compiling JavaScript and declarations. npm treats a `build` script as a signal to prepare a Git dependency during installation. The shared styles ship as plain CSS from `styles/`. Commit source changes and the regenerated output together. `npm run validate:generated` compares the built files with Git, and Pipeline also checks for untracked output.
 
 ## Static search
 

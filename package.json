@@ -15,7 +15,7 @@
   "files": ["dist", "styles"],
   "sideEffects": ["**/*.css"],
   "scripts": {
-    "build": "npm run clean && tsc -p tsconfig.json",
+    "build:dist": "npm run clean && tsc -p tsconfig.json",
     "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
     "validate:generated": "git diff --exit-code -- dist"
   },
