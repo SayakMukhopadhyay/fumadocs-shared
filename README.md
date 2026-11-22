@@ -29,10 +29,10 @@ npm run build
 
 ## Static search
 
-Use `Search.StaticSearchProvider` in the Next.js root layout. It wraps Fumadocs' Next.js `RootProvider` and configures the static search dialog. Sites with their own provider can assign `Search.StaticSearchDialog` to their Fumadocs provider's `search.SearchDialog`.
+Use `StaticSearchProvider` in the Next.js root layout. It wraps Fumadocs' Next.js `RootProvider` and configures the static search dialog.
 
 ```tsx
-import { Search } from '@sayakm/fumadocs-shared';
+import { StaticSearchProvider } from '@sayakm/fumadocs-shared';
 import type { ReactNode } from 'react';
 import './global.css';
 
@@ -40,12 +40,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <Search.StaticSearchProvider>{children}</Search.StaticSearchProvider>
+        <StaticSearchProvider>{children}</StaticSearchProvider>
       </body>
     </html>
   );
 }
 ```
+
+Sites with their own provider can import `{ StaticSearchDialog }` from `@sayakm/fumadocs-shared` and pass it as `search.SearchDialog`.
 
 The site owns its theme CSS, content, and static search route. Keep the Fumadocs `staticGET` handler at `/api/search`, the default index URL in Next.js. The dialog reads the active locale from its provider.
 
@@ -53,7 +55,11 @@ The consumer needs `fumadocs-core` `16.18.4`, `fumadocs-ui` aliased to `npm:@fum
 
 ## Access-aware layouts
 
-Import `AccessLayouts` from `@sayakm/fumadocs-shared` and use `AccessLayouts.AccessAwareHomeLayout` or `AccessLayouts.AccessAwareDocsLayout` in a site-owned client component under the site's Fumadocs provider. Pass the page tree as `tree` to the Docs layout.
+Use `AccessAwareHomeLayout` or `AccessAwareDocsLayout` in a site-owned client component under the site's Fumadocs provider. Pass the page tree as `tree` to the Docs layout.
+
+```tsx
+import { AccessAwareHomeLayout, AccessAwareDocsLayout } from '@sayakm/fumadocs-shared';
+```
 
 - `getLogoutUrl(signal)` verifies the session using the site's existing endpoint and returns the logout URL on success. Pass the signal to `fetch` and return `undefined` when verification fails. Define this callback at module scope or memoize it so its identity stays stable across renders.
 - `getLayoutProps(logoutUrl)` returns the site's Fumadocs layout options, including any logout link. It receives `undefined` during checks and when a check fails.
@@ -61,7 +67,11 @@ Import `AccessLayouts` from `@sayakm/fumadocs-shared` and use `AccessLayouts.Acc
 
 ## Mermaid diagrams
 
-Import `Diagrams` from `@sayakm/fumadocs-shared` and register `Diagrams.Mermaid` as `Mermaid` in the site's MDX component map. The site supplies its Fumadocs provider and `remarkMdxMermaid` configuration.
+Register `Mermaid` in the site's MDX component map. The site supplies its Fumadocs provider and `remarkMdxMermaid` configuration.
+
+```tsx
+import { Mermaid } from '@sayakm/fumadocs-shared';
+```
 
 Import the library stylesheet in the site's global CSS after the Fumadocs preset.
 
@@ -69,4 +79,8 @@ Import the library stylesheet in the site's global CSS after the Fumadocs preset
 @import '@sayakm/fumadocs-shared/styles.css';
 ```
 
-Other SVG viewers can render `Diagrams.DiagramViewportControls` inside their viewport root and use `Diagrams.createDiagramViewport` for zoom, fit, centering, and fullscreen. Use the shared `diagram-viewport` classes for the viewport markup and load local viewer rules after the shared stylesheet.
+Other SVG viewers can render `DiagramViewportControls` inside their viewport root and use `createDiagramViewport` for zoom, fit, centering, and fullscreen. Use the shared `diagram-viewport` classes for the viewport markup and load local viewer rules after the shared stylesheet.
+
+```tsx
+import { DiagramViewportControls, createDiagramViewport } from '@sayakm/fumadocs-shared';
+```
