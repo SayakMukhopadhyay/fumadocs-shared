@@ -1,0 +1,38 @@
+{
+  "name": "@sayakm/fumadocs-shared",
+  "version": "0.1.0",
+  "description": "Shared Fumadocs components for Sayak's projects.",
+  "license": "Apache-2.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./search": {
+      "types": "./dist/search.d.ts",
+      "import": "./dist/search.js"
+    }
+  },
+  "files": [
+    "dist/search.js",
+    "dist/search.d.ts"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepack": "npm run build"
+  },
+  "peerDependencies": {
+    "fumadocs-core": "16.18.4",
+    "fumadocs-ui": "npm:@fumadocs/base-ui@16.18.4",
+    "next": "^16.4.5",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "fumadocs-core": "16.18.4",
+    "fumadocs-ui": "npm:@fumadocs/base-ui@16.18.4",
+    "next": "16.4.5",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "typescript": "6.0.3"
+  }
+}
