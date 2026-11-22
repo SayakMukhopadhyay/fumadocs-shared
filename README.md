@@ -1,15 +1,31 @@
 # fumadocs-shared
 
-`@sayakm/fumadocs-shared` provides Fumadocs components for Sayak's projects across SayakMukhopadhyay, Kode Blox, and GreyBody Games. The intended distribution is a prebuilt, versioned `.tgz` attached to a GitHub Release under the SayakMukhopadhyay account.
+`@sayakm/fumadocs-shared` provides Fumadocs components for Sayak's projects across SayakMukhopadhyay, Kode Blox, and GreyBody Games.
 
-## Build and pack
+## Install from Git
+
+Pin a full commit SHA in the consumer's `package.json`.
+
+```json
+{
+  "dependencies": {
+    "@sayakm/fumadocs-shared": "github:SayakMukhopadhyay/fumadocs-shared#<full-commit-sha>"
+  }
+}
+```
+
+Run `npm install --ignore-scripts` to update the pin and commit the resolved `package-lock.json`. Use `npm ci --ignore-scripts` to install the locked version with its compiled output.
+
+## Maintain the library
+
+Use the Node.js version in `.nvmrc` and install the locked dependencies before building.
 
 ```sh
 npm ci --ignore-scripts
-npm pack
+npm run build
 ```
 
-`npm pack` runs the TypeScript build and creates `sayakm-fumadocs-shared-0.1.0.tgz` with ES modules and type declarations. The consumer can install the archive with scripts disabled. To try a local archive, copy it into the consumer directory and run `npm install --ignore-scripts ./sayakm-fumadocs-shared-0.1.0.tgz` there.
+`npm run build` clears `dist/` before compiling JavaScript and declarations. The shared styles ship as plain CSS from `styles/`. Commit source changes and the regenerated output together. `npm run validate:generated` compares the built files with Git, and Pipeline also checks for untracked output.
 
 ## Static search
 
@@ -42,3 +58,15 @@ Import `AccessLayouts` from `@sayakm/fumadocs-shared` and use `AccessLayouts.Acc
 - `getLogoutUrl(signal)` verifies the session using the site's existing endpoint and returns the logout URL on success. Pass the signal to `fetch` and return `undefined` when verification fails. Define this callback at module scope or memoize it so its identity stays stable across renders.
 - `getLayoutProps(logoutUrl)` returns the site's Fumadocs layout options, including any logout link. It receives `undefined` during checks and when a check fails.
 - The layout checks on mount. Set `sessionKey` to the pathname to recheck after navigation. Set `recheckOnReturn` to also check when the window regains focus or the browser restores the page from its back-forward cache.
+
+## Mermaid diagrams
+
+Import `Diagrams` from `@sayakm/fumadocs-shared` and register `Diagrams.Mermaid` as `Mermaid` in the site's MDX component map. The site supplies its Fumadocs provider and `remarkMdxMermaid` configuration.
+
+Import the library stylesheet in the site's global CSS after the Fumadocs preset.
+
+```css
+@import '@sayakm/fumadocs-shared/styles.css';
+```
+
+Other SVG viewers can render `Diagrams.DiagramViewportControls` inside their viewport root and use `Diagrams.createDiagramViewport` for zoom, fit, centering, and fullscreen. Use the shared `diagram-viewport` classes for the viewport markup and load local viewer rules after the shared stylesheet.

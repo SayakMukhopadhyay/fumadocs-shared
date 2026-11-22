@@ -1,0 +1,35 @@
+name: Pipeline
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  generated:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout and install Node dependencies
+        uses: SayakMukhopadhyay/github-actions/checkout-dependencies@v1
+        with:
+          node-version-file: .nvmrc
+
+      - name: Build generated files
+        run: npm run build
+
+      - name: Validate generated artifacts
+        shell: pwsh
+        run: npm run validate:generated
+
+      - name: Validate generated files
+        shell: pwsh
+        run: |
+          $status = git status --porcelain --untracked-files=all
+          if ($status) {
+            git status --short --untracked-files=all
+            throw 'Validation changed the tree. Commit every generated artifact.'
+          }

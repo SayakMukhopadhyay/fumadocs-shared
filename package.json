@@ -9,12 +9,20 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    }
+    },
+    "./styles.css": "./styles/index.css"
   },
-  "files": ["dist"],
+  "files": ["dist", "styles"],
+  "sideEffects": ["**/*.css"],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "prepack": "npm run build"
+    "build": "npm run clean && tsc -p tsconfig.json",
+    "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "validate:generated": "git diff --exit-code -- dist"
+  },
+  "dependencies": {
+    "@types/d3": "7.4.3",
+    "d3": "7.9.2",
+    "mermaid": "12.3.0"
   },
   "peerDependencies": {
     "fumadocs-core": "16.18.4",
