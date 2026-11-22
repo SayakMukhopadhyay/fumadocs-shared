@@ -6,15 +6,12 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./search": {
-      "types": "./dist/search.d.ts",
-      "import": "./dist/search.js"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     }
   },
-  "files": [
-    "dist/search.js",
-    "dist/search.d.ts"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "prepack": "npm run build"
