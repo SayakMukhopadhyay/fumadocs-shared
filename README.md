@@ -47,9 +47,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 }
 ```
 
-Sites with their own provider can import `{ StaticSearchDialog }` from `@sayakm/fumadocs-shared` and pass it as `search.SearchDialog`.
+The provider reads the static index at `/api/search` by default. Pass `from` if the site's Fumadocs `staticGET` handler is at a different URL.
 
-The site owns its theme CSS, content, and static search route. Keep the Fumadocs `staticGET` handler at `/api/search`, the default index URL in Next.js. The dialog reads the active locale from its provider.
+```tsx
+<StaticSearchProvider from="/docs/api/search">{children}</StaticSearchProvider>
+```
+
+Sites with their own provider can import `{ StaticSearchDialog }` from `@sayakm/fumadocs-shared` and pass it as `search.SearchDialog`. The dialog also accepts `from` and reads the active locale from its provider.
+
+The site owns its theme CSS, content, and static search route.
 
 The consumer needs `fumadocs-core` `16.18.4`, `fumadocs-ui` aliased to `npm:@fumadocs/base-ui@16.18.4`, Next.js `^16.4.5`, and React and React DOM `^19.3.1`.
 

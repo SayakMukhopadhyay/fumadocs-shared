@@ -19,11 +19,12 @@ import { useStaticSearch } from 'fumadocs-core/search/client';
 import { SearchDialog, SearchDialogClose, SearchDialogContent, SearchDialogHeader, SearchDialogIcon, SearchDialogInput, SearchDialogList, SearchDialogOverlay, } from 'fumadocs-ui/components/dialog/search';
 import { useI18n } from 'fumadocs-ui/contexts/i18n';
 import { RootProvider } from 'fumadocs-ui/provider/next';
-export function StaticSearchDialog(props) {
+export function StaticSearchDialog({ from, ...props }) {
     const { locale } = useI18n();
-    const search = useStaticSearch({ locale });
+    const search = useStaticSearch({ from, locale });
     return (_jsxs(SearchDialog, { ...search, ...props, children: [_jsx(SearchDialogOverlay, {}), _jsxs(SearchDialogContent, { children: [_jsxs(SearchDialogHeader, { children: [_jsx(SearchDialogIcon, {}), _jsx(SearchDialogInput, {}), _jsx(SearchDialogClose, {})] }), _jsx(SearchDialogList, {})] })] }));
 }
-export function StaticSearchProvider({ children }) {
-    return _jsx(RootProvider, { search: { SearchDialog: StaticSearchDialog }, children: children });
+export function StaticSearchProvider({ children, from }) {
+    const options = { from };
+    return _jsx(RootProvider, { search: { SearchDialog: StaticSearchDialog, options }, children: children });
 }

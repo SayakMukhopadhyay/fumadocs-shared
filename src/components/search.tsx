@@ -32,9 +32,11 @@ import { useI18n } from 'fumadocs-ui/contexts/i18n';
 import { RootProvider } from 'fumadocs-ui/provider/next';
 import type { ReactNode } from 'react';
 
-export function StaticSearchDialog(props: SharedProps) {
+type StaticSearchDialogProps = SharedProps & { from?: string };
+
+export function StaticSearchDialog({ from, ...props }: StaticSearchDialogProps) {
   const { locale } = useI18n();
-  const search = useStaticSearch({ locale });
+  const search = useStaticSearch({ from, locale });
 
   return (
     <SearchDialog {...search} {...props}>
@@ -51,6 +53,8 @@ export function StaticSearchDialog(props: SharedProps) {
   );
 }
 
-export function StaticSearchProvider({ children }: { children: ReactNode }) {
-  return <RootProvider search={{ SearchDialog: StaticSearchDialog }}>{children}</RootProvider>;
+export function StaticSearchProvider({ children, from }: { children: ReactNode; from?: string }) {
+  const options: Partial<StaticSearchDialogProps> = { from };
+
+  return <RootProvider search={{ SearchDialog: StaticSearchDialog, options }}>{children}</RootProvider>;
 }

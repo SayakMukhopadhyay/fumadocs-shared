@@ -1,6 +1,11 @@
 import { type SharedProps } from 'fumadocs-ui/components/dialog/search';
 import type { ReactNode } from 'react';
-export declare function StaticSearchDialog(props: SharedProps): import("react").JSX.Element;
-export declare function StaticSearchProvider({ children }: {
+type StaticSearchDialogProps = SharedProps & {
+    from?: string;
+};
+export declare function StaticSearchDialog({ from, ...props }: StaticSearchDialogProps): import("react").JSX.Element;
+export declare function StaticSearchProvider({ children, from }: {
     children: ReactNode;
+    from?: string;
 }): import("react").JSX.Element;
+export {};
